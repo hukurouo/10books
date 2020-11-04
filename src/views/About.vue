@@ -18,21 +18,9 @@
 </template>
 
 <script>
-import firebase from 'firebase'
 import html2canvas from 'html2canvas';
 
 // Webコンソールから取得したコンフィグをペースト
-const firebaseConfig = {
-  apiKey: "AIzaSyCN1lMePLo2olQKCeTLMFtb6Xc6UCU4WLY",
-  authDomain: "books-card-maker.firebaseapp.com",
-  databaseURL: "https://books-card-maker.firebaseio.com",
-  projectId: "books-card-maker",
-  storageBucket: "books-card-maker.appspot.com",
-  messagingSenderId: "971397498868",
-  appId: "1:971397498868:web:f8263917eb4b425530dba1",
-  measurementId: "G-8TZFK9QM25"
-};
-firebase.initializeApp(firebaseConfig)
 
 export default {
   data () {
