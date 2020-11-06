@@ -1,26 +1,22 @@
 <template>
   <div class="hello">
-    <button v-on:click="greet">Greet</button>
-    <div id="capture" style="padding: 10px; background: #f5da55">
-      <h4 style="color: #000; ">Hello world!</h4>
+      <h4 style="color: #000; ">名刺代わりの10冊メーカーです</h4>
       <img src="@/assets/logo.png">
-    
-    </div>
+
   </div>
 </template>
 
 <script>
-import html2canvas from 'html2canvas';
+
+
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
   },
   methods: {
-   greet: function(){
-     html2canvas(document.querySelector("#capture"), {allowTaint: true}).then(canvas => {
-      document.body.appendChild(canvas)
-    });
+    greet: function(){
+      console.log("hello")
    },
   }
 }
