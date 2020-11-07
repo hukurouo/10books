@@ -2,9 +2,17 @@
   "firestore": {
     "rules": "firestore.rules"
   },
+  "emulators": {
+    "firestore": {
+      "port": "40010"
+    }
+  },
   "hosting": {
     "public": "dist",
     "rewrites": [
+      {
+        "source": "/id/**", "function": "generate"
+      },
       {
         "source": "**",
         "destination": "/index.html"

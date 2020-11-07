@@ -28,7 +28,7 @@ export default {
   data () {
     return {
       book_card_data: [],
-      name: "匿名",
+      name: "",
     }
   },
   methods: {
@@ -63,7 +63,7 @@ export default {
         this.setData(doc, docRef)
       })
     })
-  }
+  },
 }
 </script>
 

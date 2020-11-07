@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link to="/">TOP</router-link> |
-      <router-link to="/about">10選をつくる</router-link>
+      <router-link to="/create">10選をつくる</router-link>
 
     </div>
     <router-view/>

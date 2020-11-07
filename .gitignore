@@ -5,6 +5,8 @@ cors.json
 firestore.rules
 storage.rules
 .firebase
+.firestore-debug.log
+.ui-debug.log
 
 # local env files
 .env.local
