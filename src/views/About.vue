@@ -3,7 +3,8 @@
     <button v-on:click="login()">login</button> 
     <button v-on:click="signOut()">logout</button>
     {{ login_name }} <br><br>
-    <button v-on:click="AddStore()">store</button> 
+    <button v-on:click="AddStore()">store</button>
+    <button v-on:click="Update()">upd</button>  
 
     <FinishedCards :datas="book_card_data"
       :isedit="true"
@@ -29,7 +30,6 @@
 import firebase from 'firebase'
 import FinishedCards from '@/components/FinishedCards.vue'
 import BookList from '@/components/BookList.vue'
-
 
 export default {
   components: {
@@ -94,6 +94,20 @@ export default {
           console.error("Error adding document: ", error);
       })
     },
+    Update: function () {
+      var db = firebase.firestore()
+      var Ref = db.collection("cards").doc("ATUmcey7kTwYsU92BRgq")
+      return Ref.update({
+          name: "hoot"
+      })
+      .then(function() {
+          console.log("Document successfully updated!");
+      })
+      .catch(function(error) {
+          // The document probably doesn't exist.
+          console.error("Error updating document: ", error);
+      });
+    },
     addBook: function (params) {
       this.book_card_data.push({image: params.image,
                                 title: params.title,
@@ -122,8 +136,8 @@ export default {
               this.search_results.push({ 
                 i: index,
                 image: dig(element, "volumeInfo", "imageLinks", "thumbnail") || "https://firebasestorage.googleapis.com/v0/b/books-card-maker.appspot.com/o/unnamed%20(1).png?alt=media&token=0d07027b-72b5-4489-82b2-84ad6d784abc",
-                title: dig(element, "volumeInfo", "title"),
-                authors: dig(element, "volumeInfo", "authors"),
+                title: dig(element, "volumeInfo", "title") || "",
+                authors: dig(element, "volumeInfo", "authors") || "",
               }) 
             }
         })

@@ -17,6 +17,9 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
+const db = firebase.firestore();
+db.enablePersistence({ experimentalTabSynchronization: true })
+
 new Vue({
   router,
   render: h => h(App)

@@ -1,13 +1,12 @@
 <template>
   <div class="home">
-    {{ $route.params.id }}
-    <br><br>
+    <br>
     {{ name }} さんの
     <FinishedCards :datas="book_card_data"
     :isedit="false"/>
-    <br><br>
+    <br>
     <p> - </p>
-    <br><br>
+    <br>
 
     <BookList :datas="book_card_data"
       :isedit="false" />
@@ -32,27 +31,38 @@ export default {
       name: "匿名",
     }
   },
+  methods: {
+    setData: function (doc, docRef) {
+      if (doc.exists) {
+        console.log("Document data:", doc.data());
+        if (doc.data().name != ""){this.name = doc.data().name}
+        docRef.collection('datas').get().then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            console.log(`${doc.id} => ${doc.data().title}`);
+            this.book_card_data.push({
+              title: doc.data().title,
+              authors: doc.data().authors,
+              image: doc.data().image
+            })
+          })
+        })
+      } else {
+          console.log("No such document!");
+      }
+    }
+  },
   created(){
     var db = firebase.firestore();
     var docRef = db.collection("cards").doc(this.$route.params.id)
-    docRef.get().then((doc) => {
-        if (doc.exists) {
-            console.log("Document data:", doc.data());
-            if (doc.data().name != ""){this.name = doc.data().name}
-            docRef.collection('datas').get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                console.log(`${doc.id} => ${doc.data().title}`);
-                this.book_card_data.push({title: doc.data().title,
-                                          authors: doc.data().authors,
-                                          image: doc.data().image})
-            })
-        })
-        } else {
-            console.log("No such document!");
-        }
-    }).catch(function(error) {
-        console.log("Error getting document:", error);
-    });
+    docRef.get({ source: "cache" }).then((doc) => {
+      console.log("get cache");
+      this.setData(doc, docRef)
+    }).catch(error => {
+      console.log("Error getting document:", error);
+      docRef.get().then((doc) => {
+        this.setData(doc, docRef)
+      })
+    })
   }
 }
 </script>

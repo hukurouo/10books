@@ -2,12 +2,17 @@
   <div>
     <div v-for="(item) in datas" :key="item.id">
       <div class="display_flex" id="paddingtop5"> 
-        <img :src="`${item.image}`" :width=70>
+        <img :src="`${item.image}`" :width=75 :height=110>
         <div class="book_detail">
           {{ OverNumberOfCharacters(item.title) }} <br>
-          {{ AuthorsList(item.authors) }} <br><br>
+          <div v-for="(author) in AuthorsList(item.authors)" :key="author">
+            {{ author }} <br>
+          </div>
+          <br>
+          <div v-if="isedit == false">
            <a :href="`https://www.google.com/search?q=${item.title}`" target="_blank" rel="noopener noreferrer">Google</a> | 
            <a :href="`https://www.amazon.co.jp/s?k=${item.title}`" target="_blank" rel="noopener noreferrer">Amazon</a>
+          </div>
           <button v-if="isedit" v-on:click="addBook(item)">add</button>
         </div>
       </div>
@@ -30,6 +35,7 @@ export default {
   },
   methods: {
     OverNumberOfCharacters: function (params) {
+      if (params == undefined){return params}
       var width = this.windowWidth - 70
       var CharacterLimitCount = width / 18
       if (params.length > CharacterLimitCount){
@@ -47,7 +53,7 @@ export default {
       } else {
         author = [this.OverNumberOfCharacters(params[0])]
       }
-      return author.join(",")
+      return author
     },
     addBook: function (params) {
       this.$emit('addBook', params)
@@ -75,7 +81,7 @@ export default {
 }
 
 #paddingtop5{
-  padding-top: 5px;
+  padding-bottom: 20px;
 }
 
 
