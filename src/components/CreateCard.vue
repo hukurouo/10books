@@ -53,10 +53,8 @@
       @addBook="addBook"/>
     <br>
     <br>
-    <div>
 
-    </div>
-    <div class="name_input_field">
+    <div class="name_input_field" v-if=open_namefield>
       <b-field label="名前（ユーザーネーム）">
         <b-input 
              v-model="name" 
@@ -124,7 +122,11 @@ export default {
     is_validate_data: function () {
       if (this.name != "" && this.book_card_data.length == 10){ return true}
       return false
-    }
+    },
+    open_namefield: function () {
+      if (this.book_card_data.length == 10){ return true}
+      return false
+    },
   },
   created(){
   },
@@ -132,7 +134,7 @@ export default {
     clear: function(){
       this.search_word = ""
     },
-    AddStore: function () {
+    AddStore: async function () {
       var db = firebase.firestore()
       console.log(this.book_card_data)
       var titles = []
@@ -149,6 +151,14 @@ export default {
           authors.push(valid_auts[j])
         }
       }
+      var serial_number = 0
+      await db.collection("cards").orderBy("serial_number", "desc").limit(1)
+          .get()
+          .then((querySnapshot)=>{
+            querySnapshot.forEach((doc) => {
+            serial_number = doc.data().serial_number + 1
+          });
+      })
       authors = [...new Set(authors)]
       db.collection("cards").add({
           name: this.name,
@@ -156,13 +166,14 @@ export default {
           datas: this.book_card_data,
           titles: titles,
           authors: authors,
+          serial_number: serial_number,
           created_at: firebase.firestore.FieldValue.serverTimestamp()
       })
       .then(async docRef => {
         const docID = docRef.id
         console.log(docID)
         await this.StorageAdd(docID)
-        // ページ遷移
+        this.$router.push({ path: `/id/${docID}` }) 
       })
       .catch(function(error) {
           console.error("Error adding document: ", error);

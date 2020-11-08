@@ -12,6 +12,10 @@
     <BookList :datas="book_card_data"
       :isedit="false" />
 
+    <br>
+    <a :href="`/id/${prev_data.id}`">{{prev_data.name}}</a>
+    ｜
+    <a :href="`/id/${next_data.id}`">{{next_data.name}}</a>
     <br><br>
     <div class="buttons_field">
         <b-button tag="router-link"
@@ -47,12 +51,39 @@ export default {
       book_card_data: [],
       name: "",
       is_render: false,
+      prev_data: {},
+      next_data: {},
     }
   },
   methods: {
+    prev_next_data: function (number) {
+      var db = firebase.firestore()
+      db.collection("cards").where("serial_number", "in", [number-1, number+1])
+        .get({ source: "cache" })
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                console.log(doc.id, " => ", doc.data());
+                if (doc.data().serial_number == number-1){this.prev_data = {id: doc.id, name:doc.data().name + " さんの10選"}}
+                if (doc.data().serial_number == number+1){this.next_data = {id: doc.id, name:doc.data().name + " さんの10選"}}
+            });
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+              db.collection("cards").where("serial_number", "in", [number-1, number+1])
+              .get()
+              .then((querySnapshot) => {
+                  querySnapshot.forEach((doc) => {
+                      console.log(doc.id, " => ", doc.data());
+                      if (doc.data().serial_number == number-1){this.prev_data = {id: doc.id, name:doc.data().name + " さんの10選"}}
+                      if (doc.data().serial_number == number+1){this.next_data = {id: doc.id, name:doc.data().name + " さんの10選"}}
+                  });
+         })
+        });
+    },
     setData: function (doc) {
       if (doc.exists) {
         this.name = doc.data().name
+        var serial_number = doc.data().serial_number
         doc.data().datas.forEach((data) => {
           this.book_card_data.push({
                 title: data.title,
@@ -60,6 +91,7 @@ export default {
                 image: data.image
           })
         })
+        this.prev_next_data(serial_number)
       } else {
         console.log("No such document!");
       }

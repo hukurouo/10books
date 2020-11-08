@@ -13,7 +13,7 @@
           </div>
           <div v-if="isedit == false">
            <a :href="`https://www.google.com/search?q=${item.title}`" target="_blank" rel="noopener noreferrer">Google</a> | 
-           <a :href="`https://www.amazon.co.jp/s?k=${item.title}`" target="_blank" rel="noopener noreferrer">Amazon</a>
+           <a :href="`https://www.amazon.co.jp/s?k=${item.title}&tag=assowl2480-22`" target="_blank" rel="noopener noreferrer">Amazon</a>
           </div>
           <div id="add_button">
           <b-button v-if="isedit" v-on:click="addBook(item)" type="is-success" outlined size="is-small">追加</b-button></div>
@@ -90,7 +90,7 @@ export default {
 }
 
 .book_list{
-  padding-left: 10px;
+  padding-left: 20px;
 }
 
 #add_button{
