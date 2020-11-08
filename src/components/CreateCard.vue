@@ -1,23 +1,26 @@
 <template>
   <div>
-
     <div v-show="true">
     <svg ref="svgCard" width="600" height="315" style="background-color:#fff">
       <rect x="10" y="10" width="580" height="295" stroke="#ddd" fill="none"  />
-      <text x="0" y="20" letter-spacing="5" word-spacing="10">
-        文字 単語間隔の調整
+      <text x="40" y="60" letter-spacing="2" word-spacing="10" font-size="24" font-family="HiraginoSans-W5, Hiragino Sans">
+        <tspan font-weight="bold">{{ name }} さんの小説10選</tspan>
       </text>
-      <text x="0" y="60">
-        <tspan>位</tspan>
-        <tspan dx="5" dy="-5">置</tspan>
-        <tspan dx="5" dy="-5">の</tspan>
-        <tspan dx="5" dy="5">調</tspan>
-        <tspan dx="5" dy="5">整</tspan>
-        <tspan x="0" dy="20">改行</tspan>
-        <tspan x="220" dy="200">改行</tspan>
+      <text x="40" y="110" letter-spacing="2"  font-size="20" font-family="HiraginoSans-W5, Hiragino Sans">
+        <tspan font-weight="bold">1. {{OverNumberOfCharacters(ogp_book_title[0]) }} </tspan>
       </text>
-      <text transform="translate(103.29 447.281)" fill="#e51f4e" font-size="129" font-family="HiraginoSans-W5, Hiragino Sans" letter-spacing="-0.002em">
-        <tspan x="0" y="26">{{ msg }}</tspan>
+      <text x="40" y="150" letter-spacing="2"  font-size="20" font-family="HiraginoSans-W5, Hiragino Sans">
+        <tspan font-weight="bold">2. {{OverNumberOfCharacters(ogp_book_title[1]) }} </tspan>
+      </text>
+      <text x="40" y="190" letter-spacing="2" font-size="20" font-family="HiraginoSans-W5, Hiragino Sans">
+        <tspan font-weight="bold">3. {{OverNumberOfCharacters(ogp_book_title[2]) }} </tspan>
+      </text>
+      <text x="40" y="230" letter-spacing="2" font-size="20" font-family="HiraginoSans-W5, Hiragino Sans">
+        <tspan font-weight="bold">4. {{OverNumberOfCharacters(ogp_book_title[3]) }} </tspan>
+      </text>
+      <text x="40" y="270" letter-spacing="2" font-size="20" font-family="HiraginoSans-W5, Hiragino Sans">
+        <tspan font-weight="bold">5. {{OverNumberOfCharacters(ogp_book_title[4]) }} </tspan>
+        <tspan font-weight="bold" dx="20"> ......</tspan>
       </text>
     </svg>
     </div>
@@ -92,7 +95,8 @@ export default {
       zero_result: false,
       msg: "hjCxmlyHFOhcKm32PfVK",
       docID: "",
-      is_validate_data: true
+      is_validate_data: true,
+      ogp_book_title:[]
     }
   },
   computed: {
@@ -166,7 +170,17 @@ export default {
         });
       })
     },
+    OverNumberOfCharacters: function (params) {
+      if (params == undefined){return params}
+      var CharacterLimitCount = 18
+      if (params.length > CharacterLimitCount){
+        return params.slice(0,CharacterLimitCount-1) + " ..."
+      } else {
+        return params
+      }
+    },
     addBook: function (params) {
+      this.ogp_book_title.push(params.title)
       this.book_card_data.push({image: params.image,
                                 title: params.title,
                                 authors: params.authors,
@@ -174,6 +188,7 @@ export default {
     },
     deleteBook: function (params) {
       this.book_card_data = this.book_card_data.filter(data => data.image != params.image)
+      this.ogp_book_title = this.ogp_book_title.filter(data => data != params.title)
     },
     search: function(){
       this.search_results = []
