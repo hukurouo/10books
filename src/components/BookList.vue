@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="book_list">
     <div v-for="(item) in datas" :key="item.id">
       <div class="display_flex" id="paddingtop5"> 
         <img :src="`${item.image}`" :width=75 :height=110>
@@ -9,12 +9,12 @@
           <div v-for="(author) in AuthorsList(item.authors)" :key="author">
             {{ author }} <br>
           </div>
-          <br>
           <div v-if="isedit == false">
            <a :href="`https://www.google.com/search?q=${item.title}`" target="_blank" rel="noopener noreferrer">Google</a> | 
            <a :href="`https://www.amazon.co.jp/s?k=${item.title}`" target="_blank" rel="noopener noreferrer">Amazon</a>
           </div>
-          <button v-if="isedit" v-on:click="addBook(item)">add</button>
+          <div id="add_button">
+          <b-button v-if="isedit" v-on:click="addBook(item)" type="is-success" outlined size="is-small">追加</b-button></div>
         </div>
       </div>
     </div>
@@ -87,5 +87,12 @@ export default {
   padding-bottom: 20px;
 }
 
+.book_list{
+  padding-left: 10px;
+}
+
+#add_button{
+  padding-top: 5px;
+}
 
 </style>

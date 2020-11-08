@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-show="true">
+    <div v-show="false">
     <svg ref="svgCard" width="600" height="315" style="background-color:#fff">
       <rect x="10" y="10" width="580" height="295" stroke="#ddd" fill="none"  />
       <text x="40" y="60" letter-spacing="2" word-spacing="10" font-size="24" font-family="HiraginoSans-W5, Hiragino Sans">
@@ -29,13 +29,23 @@
       :isedit="true"
       @deleteBook="deleteBook"/>
 
-    <br><br>
+    <br>
     <div v-if=zero_result>
       結果が見つかりませんでした
     </div>
 
-    <input v-on:keyup.enter="search" v-model="search_word" placeholder="edit me">
-    <button v-on:click="search">search</button>
+    <div class="search_field">
+      <div class="search_input_field">
+       <b-input 
+             v-on:keyup.native.enter="search" 
+             v-model="search_word"
+             placeholder="小説のタイトルを入力してください"></b-input>
+      </div>
+        <b-button v-on:click="search">検索</b-button>
+      
+    </div>
+
+
     <br><br>
 
     <BookList :datas="search_results"
@@ -44,13 +54,27 @@
     <br>
     <br>
     <div>
-    名前： <input v-model="name" placeholder="edit name">
+
     </div>
-
-    <br><br>
+    <div class="name_input_field">
+      <b-field label="名前（ユーザーネーム）">
+        <b-input 
+             v-model="name" 
+             maxlength="10"
+             placeholder="名前を入力してください">
+        </b-input>
+      </b-field>
+    </div>
+    <br>
     
+    {{ this.book_card_data.length }} / 10
 
-    <button v-on:click="AddStore()" :disabled=!is_validate_data>ページを生成する</button>
+    <br>
+
+    <b-button 
+    v-on:click="AddStore()" 
+    :disabled=!is_validate_data
+    >ページを生成する</b-button>
 
     <br><br>
 
@@ -89,29 +113,25 @@ export default {
     return {
       book_card_data: [],
       name: "",
+      search_word: "",
       type: "novel",
       search_results: [],
-      search_results_tmp: "",
       zero_result: false,
-      msg: "hjCxmlyHFOhcKm32PfVK",
-      docID: "",
-      is_validate_data: true,
       ogp_book_title:[]
     }
   },
   computed: {
-    search_word: {
-      get(){
-        return this.search_results_tmp
-      },
-      set (value) {
-        this.search_results_tmp = value
-      }
+    is_validate_data: function () {
+      if (this.name != "" && this.book_card_data.length == 10){ return true}
+      return false
     }
   },
   created(){
   },
   methods: {
+    clear: function(){
+      this.search_word = ""
+    },
     AddStore: function () {
       var db = firebase.firestore()
       console.log(this.book_card_data)
@@ -185,13 +205,14 @@ export default {
                                 title: params.title,
                                 authors: params.authors,
                                 })
+      this.search_word = ""
+      this.search_results = []
     },
     deleteBook: function (params) {
       this.book_card_data = this.book_card_data.filter(data => data.image != params.image)
       this.ogp_book_title = this.ogp_book_title.filter(data => data != params.title)
     },
     search: function(){
-      this.search_results = []
       var dig = require('object-dig')
       fetch(`https://www.googleapis.com/books/v1/volumes?q=${this.search_word}`)
       .then(response => {
@@ -203,11 +224,13 @@ export default {
             this.zero_result = true
             return
           }
+          this.search_results = []
           for (let index = 0; index < 10; index++) {
             const element = data.items[index];
+            
             this.search_results.push({ 
               i: index,
-              image: dig(element, "volumeInfo", "imageLinks", "thumbnail") || "https://firebasestorage.googleapis.com/v0/b/books-card-maker.appspot.com/o/unnamed%20(1).png?alt=media&token=0d07027b-72b5-4489-82b2-84ad6d784abc",
+              image: dig(element, "volumeInfo", "imageLinks", "thumbnail") || "https://firebasestorage.googleapis.com/v0/b/books-card-maker.appspot.com/o/unnamed%20(1).png?alt=media&token=cfc13b85-a9fe-4bc7-b75e-fab3584547b6",
               title: dig(element, "volumeInfo", "title") || "",
               authors: dig(element, "volumeInfo", "authors") || "",
             }) 
@@ -229,6 +252,23 @@ export default {
 }
 .book_detail{
   padding-left: 10px;
+  text-align: left
+}
+.search_field{
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  max-width: 500px;
+}
+.search_input_field{
+  width: 90%;
+  max-width: 450px;
+  padding-right: 10px;
+}
+.name_input_field{
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto;
   text-align: left
 }
 </style>

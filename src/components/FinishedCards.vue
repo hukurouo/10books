@@ -1,13 +1,14 @@
 <template>
   <div>
-    <div v-if="isedit == false">
+    <div v-if="isedit == false" class="content">
       <h1>名刺代わりの小説10選</h1>
     </div>
     <div class="display_flex"> 
       <div v-for="(item) in datas" :key="item.id">
         <img :src="`${item.image}`" :width=imagewidth()><br>
-         <button v-if="isedit" v-on:click="deleteBook(item)">delete</button>
-      </div>
+        <div id="delete_button">
+         <b-button v-if="isedit" v-on:click="deleteBook(item)" type="is-danger is-light" size="is-small">削除</b-button></div>
+        </div>
     </div>
 
   </div>
@@ -50,8 +51,20 @@ export default {
 <style scoped>
 .display_flex{
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  width: 96%;
+  margin: 0 auto;
+}
+@media screen and (min-width: 800px) {
+  .display_flex{
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+}
+
+}
+
+#delete_button{
+  padding-bottom:5px;
 }
 
 </style>

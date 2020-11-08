@@ -1,15 +1,18 @@
 <template>
   <div class="container">
     <CreateCard/>
+    <Footer/>
   </div>
 </template>
 
 <script>
 import CreateCard from '@/components/CreateCard.vue'
+import Footer from '@/components/Footer.vue'
 
 export default {
   components: {
-    CreateCard
+    CreateCard,
+    Footer
   },
   data () {
     return {
