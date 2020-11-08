@@ -45,7 +45,7 @@ const genHtml = (param, title) => `
   <body>
     <script>
       // クローラーにはメタタグを解釈させて、人間は任意のページに飛ばす
-      location.href = 'https://books-card-maker.web.app/card/${param}';
+      location.href = 'https://books-card-maker.web.app/redirect/${param}';
     </script>
   </body>
 </html>

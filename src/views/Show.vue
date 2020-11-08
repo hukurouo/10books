@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    
+    <div v-if=is_render>
     <div id="padding10">{{ name }} さんの </div>
 
     <FinishedCards :datas="book_card_data"
@@ -25,6 +25,7 @@
     > ログイン不要です
     <br><br>
     <Footer/>
+    </div>
   </div>
 </template>
 
@@ -45,6 +46,7 @@ export default {
     return {
       book_card_data: [],
       name: "",
+      is_render: false,
     }
   },
   methods: {
@@ -69,9 +71,11 @@ export default {
 
     docRef.get({ source: "cache" }).then((doc) => {
       this.setData(doc)
+      this.is_render = true
     }).catch(() => {
       docRef.get().then((doc) => {
         this.setData(doc)   
+        this.is_render = true
       })
     })
   },

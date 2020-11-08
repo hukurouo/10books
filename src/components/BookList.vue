@@ -2,7 +2,9 @@
   <div class="book_list">
     <div v-for="(item) in datas" :key="item.id">
       <div class="display_flex" id="paddingtop5"> 
-        <img :src="`${item.image}`" :width=75 :height=110>
+        <div class="list_image">
+          <img :src="`${item.image}`">
+        </div>
         <div class="book_detail">
           <b class="book_title">{{ OverNumberOfCharacters(item.title) }} </b>
           <br>
@@ -93,6 +95,10 @@ export default {
 
 #add_button{
   padding-top: 5px;
+}
+.list_image{
+  width: 75px;
+  height: auto;
 }
 
 </style>

@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Show from '../views/Show.vue'
 import Search from '../views/Search.vue'
+import Redirect from '../views/Redirect.vue'
 
 Vue.use(VueRouter)
 
@@ -20,7 +21,8 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Create.vue')
   },
-  { path: '/card/:id', name: 'Show', component: Show },
+  { path: '/redirect/:id', name: 'Redirect', component: Redirect },
+  { path: '/id/:id', name: 'Show', component: Show },
   { path: '/search', name: 'Search', component: Search }
 
 ]

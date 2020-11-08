@@ -1,10 +1,10 @@
 <template>
   <div class="hello">
     <div class="content">
-      <h4>#名刺代わりの小説10選</h4>
+      <h3 style="color:#6495ed">#名刺代わりの小説10選</h3>
       のページを作れるサイトです
       <br><br>
-      <img id="top_image" src="https://firebasestorage.googleapis.com/v0/b/books-card-maker.appspot.com/o/rapture_20201108190309.png?alt=media&token=8882df9c-fe2c-42a3-a24e-090ad5dac348" alt="">
+      <img id="top_image" src="@/assets/top_image.png" alt="">
       <br><br>
       <div class="buttons_field">
         <b-button tag="router-link"

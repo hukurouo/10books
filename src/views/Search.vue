@@ -11,7 +11,7 @@
     <br>  
       <div v-for="(item) in result" :key="item.id">
         
-        <router-link :to="`/card/${item.id}`"> {{item.name}}さんの10選</router-link>
+        <router-link :to="`/id/${item.id}`"> {{item.name}}さんの10選</router-link>
       </div>
     <br> <br> <br>
     <!--
@@ -37,6 +37,7 @@ export default {
     }
   },
   created(){
+
   },
   methods: {
     search: function () {
