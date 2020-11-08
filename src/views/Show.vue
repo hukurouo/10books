@@ -66,6 +66,7 @@ export default {
     }
   },
   created(){
+    this.is_render = false
     var db = firebase.firestore();
     var docRef = db.collection("cards").doc(this.$route.params.id)
 

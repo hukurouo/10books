@@ -2,8 +2,9 @@
   <div class="hello">
     <div class="content">
       <h3 style="color:#6495ed">#名刺代わりの小説10選</h3>
+      <br>
       のページを作れるサイトです
-      <br><br>
+      <br>
       <img id="top_image" src="@/assets/top_image.png" alt="">
       <br><br>
       <div class="buttons_field">
