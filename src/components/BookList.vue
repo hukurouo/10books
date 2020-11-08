@@ -4,7 +4,8 @@
       <div class="display_flex" id="paddingtop5"> 
         <img :src="`${item.image}`" :width=75 :height=110>
         <div class="book_detail">
-          {{ OverNumberOfCharacters(item.title) }} <br>
+          <b class="book_title">{{ OverNumberOfCharacters(item.title) }} </b>
+          <br>
           <div v-for="(author) in AuthorsList(item.authors)" :key="author">
             {{ author }} <br>
           </div>
@@ -36,7 +37,9 @@ export default {
   methods: {
     OverNumberOfCharacters: function (params) {
       if (params == undefined){return params}
-      var width = this.windowWidth - 70
+      var windowWidth = this.windowWidth
+      if (windowWidth > 800){windowWidth = 800}
+      var width = windowWidth - 70
       var CharacterLimitCount = width / 18
       if (params.length > CharacterLimitCount){
         return params.slice(0,CharacterLimitCount-1) + "..."

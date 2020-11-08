@@ -55,10 +55,8 @@ export default {
     var db = firebase.firestore();
     var docRef = db.collection("cards").doc(this.$route.params.id)
     docRef.get({ source: "cache" }).then((doc) => {
-      console.log("get cache");
       this.setData(doc, docRef)
-    }).catch(error => {
-      console.log("Error getting document:", error);
+    }).catch(() => {
       docRef.get().then((doc) => {
         this.setData(doc, docRef)
       })

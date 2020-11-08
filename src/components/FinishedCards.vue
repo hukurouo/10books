@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1>名刺代わりの小説10選</h1>
+    <div v-if="isedit == false">
+      <h1>名刺代わりの小説10選</h1>
+    </div>
     <div class="display_flex"> 
       <div v-for="(item) in datas" :key="item.id">
         <img :src="`${item.image}`" :width=imagewidth()><br>
