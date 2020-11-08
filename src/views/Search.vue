@@ -7,8 +7,16 @@
       </div>
     <b-button v-on:click="search">検索</b-button>
     </div>
-    <br> <br> <br> <br> <br>
+
+    <br>  
+      <div v-for="(item) in result" :key="item.id">
+        
+        <router-link :to="`/card/${item.id}`"> {{item.name}}さんの10選</router-link>
+      </div>
+    <br> <br> <br>
+    <!--
     <input v-on:keyup.enter="upd">
+    -->
     <Footer/>
   </div>
 </template>
@@ -35,10 +43,11 @@ export default {
       var db = firebase.firestore()
       db.collection("cards").where("titles", "array-contains", this.search_word)
         .get()
-        .then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
+        .then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
                 // doc.data() is never undefined for query doc snapshots
                 console.log(doc.id, " => ", doc.data());
+                this.result.push({name: doc.data().name, id: doc.id})
             });
         })
         .catch(function(error) {
