@@ -59,7 +59,7 @@ export default {
     prev_next_data: function (number) {
       var db = firebase.firestore()
       db.collection("cards").where("serial_number", "in", [number-1, number+1])
-        .get({ source: "cache" })
+        .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 console.log(doc.id, " => ", doc.data());
@@ -69,15 +69,6 @@ export default {
         })
         .catch(function(error) {
             console.log("Error getting documents: ", error);
-              db.collection("cards").where("serial_number", "in", [number-1, number+1])
-              .get()
-              .then((querySnapshot) => {
-                  querySnapshot.forEach((doc) => {
-                      console.log(doc.id, " => ", doc.data());
-                      if (doc.data().serial_number == number-1){this.prev_data = {id: doc.id, name:doc.data().name + " さんの10選"}}
-                      if (doc.data().serial_number == number+1){this.next_data = {id: doc.id, name:doc.data().name + " さんの10選"}}
-                  });
-         })
         });
     },
     setData: function (doc) {

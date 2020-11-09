@@ -4,6 +4,11 @@ import router from './router'
 import firebase from 'firebase'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
+import VueGtag from "vue-gtag";
+
+Vue.use(VueGtag, {
+  config: { id: "G-9PEXGDPVXY" }
+});
 
 Vue.use(Buefy)
 
