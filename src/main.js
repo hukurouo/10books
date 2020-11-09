@@ -8,7 +8,7 @@ import VueGtag from "vue-gtag";
 
 Vue.use(VueGtag, {
   config: { id: "G-9PEXGDPVXY" }
-});
+}, router);
 
 Vue.use(Buefy)
 

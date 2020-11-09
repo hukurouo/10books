@@ -10,8 +10,7 @@
 
     <br>  
       <div v-for="(item) in result" :key="item.id">
-        
-        <router-link :to="`/id/${item.id}`"> {{item.name}}さんの10選</router-link>
+        <a :href="`/id/${item.id}`" target="_blank" rel="noopener noreferrer" >{{item.name}}さんの10選</a> <br><br>
       </div>
     <br> <br> <br>
     <!--
@@ -41,8 +40,9 @@ export default {
   },
   methods: {
     search: function () {
+      this.result = []
       var db = firebase.firestore()
-      db.collection("cards").where("titles", "array-contains", this.search_word)
+      db.collection("cards").where("titles", "array-contains", this.search_word).limit(10)
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {

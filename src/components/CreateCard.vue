@@ -72,7 +72,7 @@
     <b-button 
     v-on:click="AddStore()" 
     :disabled=!is_validate_data
-    >ページを生成する</b-button>
+    >{{page_generate_button}}</b-button>
 
     <br><br>
 
@@ -115,6 +115,7 @@ export default {
       type: "novel",
       search_results: [],
       zero_result: false,
+      page_generate_button: "ページを生成する",
       ogp_book_title:[]
     }
   },
@@ -135,6 +136,7 @@ export default {
       this.search_word = ""
     },
     AddStore: async function () {
+      this.page_generate_button = "生成中..."
       var db = firebase.firestore()
       console.log(this.book_card_data)
       var titles = []

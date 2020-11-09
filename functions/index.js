@@ -7,9 +7,9 @@ const db = admin.firestore()
 
 const url = 'https://books-card-maker.web.app/'
 const site_name = '10冊メーカー'
-const meta_description = '小説10選のページが生成できます。ログイン不要。'
+const meta_description = '小説10選のページが生成できます。ログイン不要です。'
 const meta_keywords = ['名刺代わりの小説10選', '小説']
-const og_description = '小説10選のページが生成できます。ログイン不要。'
+const og_description = '小説10選のページが生成できます。ログイン不要です。'
 const og_image_width = 600
 const og_image_height = 315
 const fb_appid = ''

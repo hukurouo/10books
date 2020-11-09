@@ -5,8 +5,9 @@
       <br>
       のページを作れるサイトです
       <br>
+      <router-link :to="`/id/0gnEeeaGcP7aVI1jz4X1`">
       <img id="top_image" src="@/assets/top_image.png" alt="">
-      <br><br>
+      </router-link><br><br>
       <div class="buttons_field">
         <b-button tag="router-link"
                   expanded

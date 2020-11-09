@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Show from '../views/Show.vue'
+import About from '../views/About.vue'
+import ReqForm from '../views/ReqForm.vue'
+import Faq from '../views/Faq.vue'
 import Search from '../views/Search.vue'
 import Redirect from '../views/Redirect.vue'
 
@@ -11,7 +14,8 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: { title: '10冊メーカー', desc: '小説10選のページが生成できます。ログイン不要です。' }
   },
   {
     path: '/create',
@@ -23,7 +27,10 @@ const routes = [
   },
   { path: '/redirect/:id', name: 'Redirect', component: Redirect },
   { path: '/id/:id', name: 'Show', component: Show },
-  { path: '/search', name: 'Search', component: Search }
+  { path: '/search', name: 'Search', component: Search },
+  { path: '/about', name: 'About', component: About },
+  { path: '/faq', name: 'Faq', component: Faq },
+  { path: '/form', name: 'ReqForm', component: ReqForm }
 
 ]
 

@@ -6,6 +6,7 @@ firestore.rules
 storage.rules
 .firebase
 firestore-debug.log
+firebase-debug.log
 ui-debug.log
 
 # local env files
