@@ -7,6 +7,7 @@ import ReqForm from '../views/ReqForm.vue'
 import Faq from '../views/Faq.vue'
 import Search from '../views/Search.vue'
 import Redirect from '../views/Redirect.vue'
+import Timeline from '../views/Timeline.vue'
 
 Vue.use(VueRouter)
 
@@ -30,7 +31,8 @@ const routes = [
   { path: '/search', name: 'Search', component: Search },
   { path: '/about', name: 'About', component: About },
   { path: '/faq', name: 'Faq', component: Faq },
-  { path: '/form', name: 'ReqForm', component: ReqForm }
+  { path: '/form', name: 'ReqForm', component: ReqForm },
+  { path: '/timeline', name: 'Timeline', component: Timeline },
 
 ]
 

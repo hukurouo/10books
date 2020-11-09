@@ -5,6 +5,10 @@ import firebase from 'firebase'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 import VueGtag from "vue-gtag";
+import Vuex from 'vuex'
+import store from './components/store'
+
+Vue.use(Vuex)
 
 Vue.use(VueGtag, {
   config: { id: "G-9PEXGDPVXY" }
@@ -27,9 +31,10 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
-db.enablePersistence({ experimentalTabSynchronization: true })
+db.enablePersistence({ experimentalTabSynchronization: true, experimentalForceOwningTab: true })
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

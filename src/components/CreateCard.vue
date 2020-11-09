@@ -25,9 +25,10 @@
     </svg>
     </div>
 
-    <FinishedCards :datas="book_card_data"
-      :isedit="true"
-      @deleteBook="deleteBook"/>
+    <BookList :datas="book_card_data"
+      type="edit"
+      @deleteBook="deleteBook"
+      @editBook="editBook"/>
 
     <br>
     <div v-if=zero_result>
@@ -49,17 +50,17 @@
     <br><br>
 
     <BookList :datas="search_results"
-      :isedit="true"
+      type="search"
       @addBook="addBook"/>
     <br>
     <br>
 
     <div class="name_input_field" v-if=open_namefield>
-      <b-field label="名前（ユーザーネーム）">
+      <b-field label="ニックネーム（名前）">
         <b-input 
              v-model="name" 
              maxlength="10"
-             placeholder="名前を入力してください">
+             placeholder="ニックネームを入力してください">
         </b-input>
       </b-field>
     </div>
@@ -75,13 +76,17 @@
     >{{page_generate_button}}</b-button>
 
     <br><br>
+    
+    <div v-if="previewImageURL != ''">
+      twitterシェア用の画像プレビュー
+      <img :src="`${previewImageURL}`" alt="" class="previewImage">
+    </div>
 
   </div>
 </template>
 
 <script>
 import firebase from 'firebase'
-import FinishedCards from '@/components/FinishedCards.vue'
 import BookList from '@/components/BookList.vue'
 
 function svg2imageData (svgElement, successCallback, errorCallback) {
@@ -97,14 +102,12 @@ function svg2imageData (svgElement, successCallback, errorCallback) {
   image.onerror = (e) => {
     errorCallback(e)
   }
-  console.log(svgElement)
   var svgData = new XMLSerializer().serializeToString(svgElement)
   image.src = 'data:image/svg+xml;charset=utf-8;base64,' + btoa(unescape(encodeURIComponent(svgData)))
 }
 
 export default {
   components: {
-    FinishedCards,
     BookList
   },
   data () {
@@ -114,6 +117,7 @@ export default {
       search_word: "",
       type: "novel",
       search_results: [],
+      previewImageURL: "",
       zero_result: false,
       page_generate_button: "ページを生成する",
       ogp_book_title:[]
@@ -126,7 +130,7 @@ export default {
     },
     open_namefield: function () {
       if (this.book_card_data.length == 10){ return true}
-      return false
+      return true
     },
   },
   created(){
@@ -138,7 +142,7 @@ export default {
     AddStore: async function () {
       this.page_generate_button = "生成中..."
       var db = firebase.firestore()
-      console.log(this.book_card_data)
+      //console.log(this.book_card_data)
       var titles = []
       for (let index = 0; index < this.book_card_data.length; index++) {
         const element = this.book_card_data[index];
@@ -173,8 +177,9 @@ export default {
       })
       .then(async docRef => {
         const docID = docRef.id
-        console.log(docID)
+        //console.log(docID)
         await this.StorageAdd(docID)
+        this.$store.commit('switch')
         this.$router.push({ path: `/id/${docID}` }) 
       })
       .catch(function(error) {
@@ -190,17 +195,15 @@ export default {
           cacheControl: 'public,max-age=3600'
         };
 
-        await fileRef.putString(data, 'data_url').then((snapshot) => {
-          console.log(snapshot)
-        }).catch(err => {
-          console.error(err)
-        })
+        await fileRef.putString(data, 'data_url')
 
-        fileRef.updateMetadata(metadata).then(function(meta) {
-          console.log(meta)
-        }).catch(function(error) {
-          console.log(error)
-        });
+        fileRef.updateMetadata(metadata)
+      })
+    },
+    previewImage(){
+      console.log("p")
+      svg2imageData(this.$refs.svgCard, (data) => {
+        this.previewImageURL = data
       })
     },
     OverNumberOfCharacters: function (params) {
@@ -212,26 +215,31 @@ export default {
         return params
       }
     },
-    addBook: function (params) {
-      this.ogp_book_title.push(params.title)
+    addBook: async function (params) {
+      await this.ogp_book_title.push(params.title)
       this.book_card_data.push({image: params.image,
                                 title: params.title,
                                 authors: params.authors,
                                 })
       this.search_word = ""
       this.search_results = []
+      this.previewImage()
     },
-    deleteBook: function (params) {
-      this.book_card_data = this.book_card_data.filter(data => data.image != params.image)
+    deleteBook: async function (params) {
       this.ogp_book_title = this.ogp_book_title.filter(data => data != params.title)
+      this.book_card_data = this.book_card_data.filter(data => data.image != params.image)
+      await this.previewImage()
+      this.previewImage()
+    },
+    editBook: async function (params) {
+      this.ogp_book_title[params[0]] = params[1]
     },
     search: function(){
       var dig = require('object-dig')
       fetch(`https://www.googleapis.com/books/v1/volumes?q=${this.search_word}`)
       .then(response => {
-        console.log(response.status); 
         return response.json().then(data => {
-          console.log(data);
+          //console.log(data);
           this.zero_result = false
           if (data.totalItems == 0) {
             this.zero_result = true
@@ -283,5 +291,9 @@ export default {
   max-width: 500px;
   margin: 0 auto;
   text-align: left
+}
+.previewImage{
+  width: 90%;
+  max-width: 600px;
 }
 </style>

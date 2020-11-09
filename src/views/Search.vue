@@ -3,7 +3,7 @@
     <div class="search_field">
       <div class="search_input_field">
         <b-input v-on:keyup.native.enter="search" v-model="search_word" 
-        placeholder="小説のタイトル/著者で検索"></b-input>
+        placeholder="小説のタイトルで検索"></b-input>
       </div>
     <b-button v-on:click="search">検索</b-button>
     </div>
@@ -13,9 +13,7 @@
         <a :href="`/id/${item.id}`" target="_blank" rel="noopener noreferrer" >{{item.name}}さんの10選</a> <br><br>
       </div>
     <br> <br> <br>
-    <!--
-    <input v-on:keyup.enter="upd">
-    -->
+
     <Footer/>
   </div>
 </template>
@@ -23,6 +21,7 @@
 <script>
 import firebase from 'firebase'
 import Footer from '@/components/Footer.vue'
+
 
 export default {
   name: 'Search',
@@ -46,8 +45,6 @@ export default {
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                // doc.data() is never undefined for query doc snapshots
-                console.log(doc.id, " => ", doc.data());
                 this.result.push({name: doc.data().name, id: doc.id})
             });
         })
@@ -63,11 +60,7 @@ export default {
           cacheControl: 'public,max-age=3600'
         };
         console.log(metadata)
-        fileRef.getMetadata().then(function(meta) {
-          console.log(meta)
-        }).catch(function(error) {
-          console.log(error)
-        });
+        fileRef.getMetadata()
     }
   },
 }

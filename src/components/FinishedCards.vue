@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div v-if="isedit == false" class="content">
+    <div class="content">
       <h1>名刺代わりの小説10選</h1>
     </div>
+
     <div class="display_flex"> 
       <div v-for="(item) in datas" :key="item.id">
         <img :src="`${item.image}`" :width=imagewidth()><br>
-        <div id="delete_button">
-         <b-button v-if="isedit" v-on:click="deleteBook(item)" type="is-danger is-light" size="is-small">削除</b-button></div>
-        </div>
+        
     </div>
+  </div>
 
   </div>
 </template>
@@ -20,7 +20,6 @@ export default {
   name: 'FinishedCards',
   props: {
     datas: Array,
-    isedit: Boolean,
   },
   data () {
     return {
@@ -37,9 +36,7 @@ export default {
     getWindowSize: function () {
       this.windowWidth = window.innerWidth
     },
-    deleteBook: function (params) {
-      this.$emit('deleteBook', params)
-    },
+
   },
   mounted() {
     window.addEventListener('resize', this.getWindowSize);

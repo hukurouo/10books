@@ -1,22 +1,31 @@
 <template>
   <div class="book_list">
-    <div v-for="(item) in datas" :key="item.id">
+    <div v-for="(item, index) in datas" :key="item.id">
       <div class="display_flex" id="paddingtop5"> 
         <div class="list_image">
           <img :src="`${item.image}`">
         </div>
         <div class="book_detail">
+          <div v-if="type == `edit`"><b-input v-model="item.title" @input.native="onChange([index, item.title])"></b-input></div>
+          <div v-if="type != `edit`">
           <b class="book_title">{{ OverNumberOfCharacters(item.title) }} </b>
-          <br>
+          </div>
           <div v-for="(author) in AuthorsList(item.authors)" :key="author">
             {{ author }} <br>
           </div>
-          <div v-if="isedit == false">
+          <div v-if="type == `show`">
            <a :href="`https://www.google.com/search?q=${item.title}`" target="_blank" rel="noopener noreferrer">Google</a> | 
            <a :href="`https://www.amazon.co.jp/s?k=${item.title}&tag=assowl2480-22`" target="_blank" rel="noopener noreferrer">Amazon</a>
           </div>
           <div id="add_button">
-          <b-button v-if="isedit" v-on:click="addBook(item)" type="is-success" outlined size="is-small">追加</b-button></div>
+          <b-button v-if="type == `search`" v-on:click="addBook(item)" type="is-success" outlined size="is-small">追加</b-button>
+          </div>
+          <div id="delete_button">
+            <b-button v-if="type == `edit`" v-on:click="deleteBook(item)" type="is-danger is-light" size="is-small">削除</b-button> <b class="left_padding"></b>
+            
+            
+          </div>
+
         </div>
       </div>
     </div>
@@ -29,7 +38,7 @@ export default {
   name: 'FinishedCards',
   props: {
     datas: Array,
-    isedit: Boolean,
+    type: String,
   },
   data () {
     return {
@@ -62,6 +71,12 @@ export default {
     },
     addBook: function (params) {
       this.$emit('addBook', params)
+    },
+    deleteBook: function (params) {
+      this.$emit('deleteBook', params)
+    },
+    onChange: function (params) {
+     this.$emit('editBook', params)
     },
     getWindowSize: function () {
       this.windowWidth = window.innerWidth
@@ -100,5 +115,7 @@ export default {
   width: 75px;
   height: auto;
 }
-
+.left_padding{
+  padding-left: 5px;
+}
 </style>
