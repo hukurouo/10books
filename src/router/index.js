@@ -16,7 +16,9 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    meta: { title: '10冊メーカー', desc: '小説10選のページが生成できます。ログイン不要です。' }
+    meta: { title: '10冊メーカー', 
+            desc: '小説10選のページが生成できます。ログイン不要です。' ,
+          }
   },
   {
     path: '/create',

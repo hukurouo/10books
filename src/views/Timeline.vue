@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <br>  
       <div v-for="(item) in result" :key="item.id">
         <a :href="`/id/${item.id}`" target="_blank" rel="noopener noreferrer" >{{item.name}}さんの10選</a> <br><br>
       </div>
@@ -28,7 +27,7 @@ export default {
     var db = firebase.firestore();
     var docRef = db.collection("cards").orderBy("serial_number", "desc").limit(10)
 
-    docRef.get({ source: "cache" }).then((querySnapshot) => {
+    docRef.get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 this.result.push({name: doc.data().name, id: doc.id})
             });

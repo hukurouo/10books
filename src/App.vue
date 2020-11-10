@@ -5,8 +5,9 @@
       <router-link to="/create">10選をつくる</router-link> | 
       <router-link to="/search">検索</router-link> | 
       <router-link to="/timeline">新着</router-link>
-
+      <hr>
     </div>
+    
     <router-view/>
   </div>
 </template>

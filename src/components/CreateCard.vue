@@ -78,7 +78,10 @@
     <br><br>
     
     <div v-if="previewImageURL != ''">
-      twitterシェア用の画像プレビュー
+      twitterシェア用の画像プレビュー 
+      <br> 
+      <div class="kousin_btn"> <b-button v-on:click="previewImage" size="is-small"> 更新</b-button></div>
+
       <img :src="`${previewImageURL}`" alt="" class="previewImage">
     </div>
 
@@ -201,7 +204,6 @@ export default {
       })
     },
     previewImage(){
-      console.log("p")
       svg2imageData(this.$refs.svgCard, (data) => {
         this.previewImageURL = data
       })
@@ -233,6 +235,11 @@ export default {
     },
     editBook: async function (params) {
       this.ogp_book_title[params[0]] = params[1]
+      this.book_card_data.push({image: "params.image",
+                                title:" params.title",
+                                authors: "params.authors",
+                                })
+      this.book_card_data = this.book_card_data.filter(data => data.image != "params.image")
     },
     search: function(){
       var dig = require('object-dig')
@@ -295,5 +302,8 @@ export default {
 .previewImage{
   width: 90%;
   max-width: 600px;
+}
+.kousin_btn{
+  padding: 10px;
 }
 </style>

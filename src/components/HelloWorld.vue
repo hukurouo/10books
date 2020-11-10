@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <div class="content">
-      <h3 style="color:#6495ed">#名刺代わりの小説10選</h3>
+      <h3 style="color:#6495ed; margin-top:20px;">#名刺代わりの小説10選</h3>
       <br>
       のページを作れるサイトです
 

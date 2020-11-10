@@ -6,9 +6,9 @@
       <h4>作った人</h4>
       hukurouo
       <br> <br>
-      <a :href="`https://forms.gle/17zWrZu4Q2EQXokt9`" target="_blank" rel="noopener noreferrer">Twitter</a> /
-      <a :href="`https://forms.gle/17zWrZu4Q2EQXokt9`" target="_blank" rel="noopener noreferrer">GitHub</a> /
-      <a :href="`https://forms.gle/17zWrZu4Q2EQXokt9`" target="_blank" rel="noopener noreferrer">Blog</a>
+      <a :href="`https://twitter.com/spctrn`" target="_blank" rel="noopener noreferrer">Twitter</a> /
+      <a :href="`https://github.com/hukurouo`" target="_blank" rel="noopener noreferrer">GitHub</a> /
+      <a :href="`https://hukurouo.web.app/`" target="_blank" rel="noopener noreferrer">Blog</a>
             <br> <br>
       <br>
       
